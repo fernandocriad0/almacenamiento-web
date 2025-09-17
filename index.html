@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tipos de Almacenamiento de Datos</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+  <header class="bg-blue-600 text-white p-6 shadow">
+    <h1 class="text-2xl font-bold">Tipos de Almacenamiento de Datos</h1>
+    <p class="text-sm">Una guía educativa interactiva</p>
+  </header>
+
+  <main class="max-w-5xl mx-auto p-6 space-y-12">
+
+    <!-- Filtro -->
+    <section id="filtro">
+      <h2 class="text-xl font-semibold mb-4">🔍 Filtrar Tipos de Almacenamiento</h2>
+      <input 
+        id="filtroInput" 
+        type="text" 
+        placeholder="Escribe para filtrar tarjetas..." 
+        class="w-full p-2 border rounded"
+      >
+    </section>
+
+    <!-- Tarjetas -->
+    <section id="tarjetas">
+      <h2 class="text-xl font-semibold mb-4">💾 Tipos Principales</h2>
+      <div id="tarjetasContainer" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="card bg-white p-4 rounded-2xl shadow" data-label="RAM">
+          <h3 class="font-bold text-lg">RAM</h3>
+          <p>Memoria de acceso aleatorio, rápida pero volátil.</p>
+        </div>
+        <div class="card bg-white p-4 rounded-2xl shadow" data-label="Caché">
+          <h3 class="font-bold text-lg">Caché</h3>
+          <p>Memoria ultrarrápida que almacena datos de uso inmediato.</p>
+        </div>
+        <div class="card bg-white p-4 rounded-2xl shadow" data-label="HDD">
+          <h3 class="font-bold text-lg">HDD</h3>
+          <p>Discos duros magnéticos, gran capacidad pero más lentos.</p>
+        </div>
+        <div class="card bg-white p-4 rounded-2xl shadow" data-label="SSD">
+          <h3 class="font-bold text-lg">SSD</h3>
+          <p>Unidades de estado sólido, rápidas y confiables.</p>
+        </div>
+        <div class="card bg-white p-4 rounded-2xl shadow" data-label="Nube">
+          <h3 class="font-bold text-lg">Nube</h3>
+          <p>Almacenamiento remoto accesible vía internet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabla comparativa -->
+    <section id="tabla">
+      <h2 class="text-xl font-semibold mb-4">📊 Tabla Comparativa</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border text-sm">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="border px-4 py-2">Tipo</th>
+              <th class="border px-4 py-2">Velocidad</th>
+              <th class="border px-4 py-2">Capacidad</th>
+              <th class="border px-4 py-2">Costo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2">RAM</td>
+              <td class="border px-4 py-2">Muy alta</td>
+              <td class="border px-4 py-2">Limitada</td>
+              <td class="border px-4 py-2">Alto</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">HDD</td>
+              <td class="border px-4 py-2">Baja</td>
+              <td class="border px-4 py-2">Muy alta</td>
+              <td class="border px-4 py-2">Bajo</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">SSD</td>
+              <td class="border px-4 py-2">Alta</td>
+              <td class="border px-4 py-2">Alta</td>
+              <td class="border px-4 py-2">Medio</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">Nube</td>
+              <td class="border px-4 py-2">Variable</td>
+              <td class="border px-4 py-2">Escalable</td>
+              <td class="border px-4 py-2">Variable</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Glosario -->
+    <section id="glosario">
+      <h2 class="text-xl font-semibold mb-4">📖 Glosario</h2>
+      <dl class="space-y-4">
+        <div>
+          <dt class="font-bold">Volátil</dt>
+          <dd>Memoria que pierde los datos al apagar el dispositivo.</dd>
+        </div>
+        <div>
+          <dt class="font-bold">Latencia</dt>
+          <dd>Tiempo de respuesta al acceder a un dato.</dd>
+        </div>
+        <div>
+          <dt class="font-bold">Escalabilidad</dt>
+          <dd>Capacidad de aumentar recursos según la demanda.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- Quiz -->
+    <section id="quiz">
+      <h2 class="text-xl font-semibold mb-4">📝 Quiz Rápido</h2>
+      <form id="quizForm" class="space-y-4">
+        <div>
+          <label class="block font-medium">1. ¿Qué tipo de almacenamiento es más rápido pero volátil?</label>
+          <input type="text" name="q1" class="w-full p-2 border rounded">
+        </div>
+        <div>
+          <label class="block font-medium">2. ¿Cuál ofrece gran capacidad a bajo costo?</label>
+          <input type="text" name="q2" class="w-full p-2 border rounded">
+        </div>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow">
+          Enviar respuestas
+        </button>
+      </form>
+      <p id="quizResult" class="mt-4 font-bold"></p>
+    </section>
+
+  </main>
+
+  <footer class="bg-gray-200 text-center p-4 mt-12">
+    <p>&copy; 2025 Web educativa sobre almacenamiento de datos</p>
+  </footer>
+
+  <!-- Script de interactividad -->
+  <script>
+    // Filtro de tarjetas
+    const filtroInput = document.getElementById("filtroInput");
+    const tarjetas = document.querySelectorAll(".card");
+    filtroInput.addEventListener("input", () => {
+      const texto = filtroInput.value.toLowerCase();
+      tarjetas.forEach(card => {
+        const label = card.dataset.label.toLowerCase();
+        card.style.display = label.includes(texto) ? "block" : "none";
+      });
+    });
+
+    // Quiz
+    const quizForm = document.getElementById("quizForm");
+    const quizResult = document.getElementById("quizResult");
+    quizForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const q1 = quizForm.q1.value.trim().toLowerCase();
+      const q2 = quizForm.q2.value.trim().toLowerCase();
+      let score = 0;
+      if (q1.includes("ram")) score++;
+      if (q2.includes("hdd")) score++;
+      quizResult.textContent = "Tu puntaje: " + score + "/2";
+    });
+  </script>
+</body>
+</html>
