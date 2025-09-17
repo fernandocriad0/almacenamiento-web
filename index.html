@@ -21,7 +21,7 @@
       <input 
         id="filtroInput" 
         type="text" 
-        placeholder="Escribe para filtrar tarjetas..." 
+        placeholder="Escribe un tipo o uso..." 
         class="w-full p-2 border rounded"
       >
     </section>
@@ -74,7 +74,7 @@
 
   <!-- Script de datos e interactividad -->
   <script>
-    // Datos
+    // ==== Datos ====
     const items = [
       { tipo: "RAM", uso: "Ejecución de procesos en tiempo real", ejemplos: "DDR4, DDR5", latencia: "Muy baja (ns)", rendimiento: "Muy alto", durabilidad: "Volátil", escalabilidad: "Limitada al hardware", coste: "Alto por GB", desc: "Memoria principal ultrarrápida pero temporal." },
       { tipo: "SSD NVMe", uso: "Almacenamiento secundario rápido", ejemplos: "Samsung 980 Pro, WD Black", latencia: "Muy baja (µs)", rendimiento: "Alto", durabilidad: "Alta (ciclos limitados)", escalabilidad: "Limitada a slots", coste: "Medio-Alto", desc: "Unidades de estado sólido de muy alto rendimiento." },
@@ -104,103 +104,104 @@
       { enunciado: "¿Qué propiedad de las bases de datos asegura Atomicidad y Consistencia?", respuesta: "ACID" }
     ];
 
-    // Render tarjetas
-    const tarjetasContainer = document.getElementById("tarjetasContainer");
-    function renderTarjetas() {
-      tarjetasContainer.innerHTML = "";
-      items.forEach(item => {
+    // ==== Funciones ====
+
+    function renderCards(list) {
+      const container = document.getElementById("tarjetasContainer");
+      container.innerHTML = "";
+      list.forEach(item => {
         const div = document.createElement("div");
         div.className = "card bg-white p-4 rounded-2xl shadow";
-        div.dataset.label = item.tipo;
         div.innerHTML = `
           <h3 class="font-bold text-lg">${item.tipo}</h3>
-          <p class="text-sm">${item.desc}</p>
-          <p class="text-xs text-gray-500">Ejemplos: ${item.ejemplos}</p>
+          <p class="text-sm">${item.desc || ""}</p>
+          <p class="text-xs text-gray-500">Uso: ${item.uso}</p>
         `;
-        tarjetasContainer.appendChild(div);
+        container.appendChild(div);
       });
     }
 
-    // Render tabla
-    const tablaBody = document.getElementById("tablaBody");
-    function renderTabla() {
-      tablaBody.innerHTML = "";
-      items.forEach(item => {
+    function renderTabla(list) {
+      const body = document.getElementById("tablaBody");
+      body.innerHTML = "";
+      list.forEach(item => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td class="border px-4 py-2">${item.tipo}</td>
           <td class="border px-4 py-2">${item.uso}</td>
-          <td class="border px-4 py-2">${item.latencia}</td>
-          <td class="border px-4 py-2">${item.rendimiento}</td>
-          <td class="border px-4 py-2">${item.durabilidad}</td>
-          <td class="border px-4 py-2">${item.escalabilidad}</td>
-          <td class="border px-4 py-2">${item.coste}</td>
+          <td class="border px-4 py-2">${item.latencia || "-"}</td>
+          <td class="border px-4 py-2">${item.rendimiento || "-"}</td>
+          <td class="border px-4 py-2">${item.durabilidad || "-"}</td>
+          <td class="border px-4 py-2">${item.escalabilidad || "-"}</td>
+          <td class="border px-4 py-2">${item.coste || "-"}</td>
         `;
-        tablaBody.appendChild(tr);
+        body.appendChild(tr);
       });
     }
 
-    // Render glosario
-    const glosarioList = document.getElementById("glosarioList");
     function renderGlosario() {
-      glosarioList.innerHTML = "";
+      const list = document.getElementById("glosarioList");
+      list.innerHTML = "";
       glosario.forEach(entry => {
         const div = document.createElement("div");
         div.innerHTML = `
           <dt class="font-bold">${entry.termino}</dt>
           <dd>${entry.definicion}</dd>
         `;
-        glosarioList.appendChild(div);
+        list.appendChild(div);
       });
     }
 
-    // Render quiz
-    const quizForm = document.getElementById("quizForm");
     function renderQuiz() {
-      quizForm.innerHTML = "";
+      const form = document.getElementById("quizForm");
+      form.innerHTML = "";
       preguntas.forEach((p, i) => {
         const div = document.createElement("div");
         div.innerHTML = `
           <label class="block font-medium">${i+1}. ${p.enunciado}</label>
           <input type="text" name="q${i}" class="w-full p-2 border rounded">
         `;
-        quizForm.appendChild(div);
+        form.appendChild(div);
       });
       const btn = document.createElement("button");
       btn.type = "submit";
       btn.textContent = "Enviar respuestas";
       btn.className = "bg-blue-600 text-white px-4 py-2 rounded shadow";
-      quizForm.appendChild(btn);
+      form.appendChild(btn);
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let score = 0;
+        preguntas.forEach((p, i) => {
+          const val = form[`q${i}`].value.trim().toLowerCase();
+          if (val.includes(p.respuesta.toLowerCase())) score++;
+        });
+        document.getElementById("quizResult").textContent = `Tu puntaje: ${score}/${preguntas.length}`;
+      });
     }
 
-    // Filtro
-    const filtroInput = document.getElementById("filtroInput");
-    filtroInput.addEventListener("input", () => {
-      const texto = filtroInput.value.toLowerCase();
-      document.querySelectorAll(".card").forEach(card => {
-        const label = card.dataset.label.toLowerCase();
-        card.style.display = label.includes(texto) ? "block" : "none";
-      });
-    });
+    function applyFilter() {
+      const texto = document.getElementById("filtroInput").value.toLowerCase();
+      const filtrados = items.filter(item => 
+        item.tipo.toLowerCase().includes(texto) || 
+        item.uso.toLowerCase().includes(texto)
+      );
+      renderCards(filtrados);
+      renderTabla(filtrados);
+    }
 
-    // Quiz corrección
-    const quizResult = document.getElementById("quizResult");
-    quizForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      let score = 0;
-      preguntas.forEach((p, i) => {
-        const val = quizForm[`q${i}`].value.trim().toLowerCase();
-        if (val.includes(p.respuesta.toLowerCase())) score++;
-      });
-      quizResult.textContent = `Tu puntaje: ${score}/${preguntas.length}`;
-    });
+    function init() {
+      renderCards(items);
+      renderTabla(items);
+      renderGlosario();
+      renderQuiz();
+      document.getElementById("filtroInput").addEventListener("input", applyFilter);
+    }
 
-    // Inicialización
-    renderTarjetas();
-    renderTabla();
-    renderGlosario();
-    renderQuiz();
+    // Ejecutar al cargar la página
+    window.addEventListener("DOMContentLoaded", init);
   </script>
 </body>
 </html>
+
 
